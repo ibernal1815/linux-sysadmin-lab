@@ -1,30 +1,30 @@
 graph TD
-    subgraph WAN
-        Internet((Internet))
+    %% Define Nodes
+    Internet((Internet))
+    FW[pfSense / OPNsense Gateway]
+    
+    subgraph MGMT_VLAN_10 [VLAN 10: Management]
+        Proxmox[Proxmox Host]
+        Ansible[Ansible Control Node]
     end
-
-    subgraph PF_Firewall [Virtual Firewall / Gateway]
-        direction TB
-        FW[pfSense/OPNsense]
-    end
-
-    Internet <--> FW
-
-    subgraph VLAN_10_MGMT
-        Host[Proxmox Host]
-        AP[Admin PC]
-    end
-
-    subgraph VLAN_30_PROD
+    
+    subgraph PROD_VLAN_30 [VLAN 30: Linux Services]
+        Docker[Docker Host]
         K3s[K3s Cluster]
-        DB[PostgreSQL]
+    end
+    
+    subgraph CYBER_VLAN_40 [VLAN 40: Red/Blue Sandbox]
+        Wazuh[Wazuh SIEM]
+        Kali[Kali Linux]
+        Target[Vuln Target]
     end
 
-    subgraph VLAN_40_CYBER
-        Target[Vulnerable VM]
-        SOC[Wazuh/ELK]
-    end
+    %% Define Connections
+    Internet <--> FW
+    FW --- MGMT_VLAN_10
+    FW --- PROD_VLAN_30
+    FW --- CYBER_VLAN_40
 
-    FW --- VLAN_10_MGMT
-    FW --- VLAN_30_PROD
-    FW --- VLAN_40_CYBER
+    %% Styling
+    style FW fill:#f96,stroke:#333,stroke-width:2px
+    style Internet fill:#fff,stroke:#333
