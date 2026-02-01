@@ -1,0 +1,30 @@
+# --- System Junk ---
+.DS_Store
+thumbs.db
+*.log
+
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfplan
+
+# --- Ansible ---
+*.retry
+inventory/host_vars/*
+inventory/group_vars/secrets.yml
+vault_pass.txt
+
+# --- Security/Secrets ---
+.env
+*.pem
+*.key
+certs/
+secrets/
+
+# --- Virtualization ---
+*.iso
+*.vmdk
+*.qcow2
+*.vhd
